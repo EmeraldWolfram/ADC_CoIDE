@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Project version="2G - 2.0.2" name="test1">
+  <Target name="test1" isCurrent="1">
+    <Device manufacturerId="9" manufacturerName="ST" chipId="287" chipName="STM32F429ZI" boardId="" boardName="" boardUrl="" coreId="4" coreName="Cortex M4"/>
+    <BuildOption>
+      <Compile>
+        <Option name="OptimizationLevel" value="0"/>
+        <Option name="UseFPU" value="0"/>
+        <Option name="UserEditCompiler" value=""/>
+        <Option name="SupportCPlusplus" value="0"/>
+        <Option name="DEBUG" value="2"/>
+        <Option name="WARNING" value="1"/>
+        <Includepaths>
+          <Includepath path="."/>
+        </Includepaths>
+        <DefinedSymbols>
+          <Define name="STM32F429ZI"/>
+          <Define name="STM32F429xx"/>
+        </DefinedSymbols>
+      </Compile>
+      <Link useDefault="0">
+        <Option name="DiscardUnusedSection" value="0"/>
+        <Option name="UserEditLinkder" value=""/>
+        <Option name="UseMemoryLayout" value="0"/>
+        <Option name="nostartfiles" value="0"/>
+        <Option name="LTO" value="0"/>
+        <Option name="IsNewStartupCode" value="1"/>
+        <Option name="DiscardUnusedSections" value="1"/>
+        <LinkedLibraries/>
+        <MemoryAreas debugInFlashNotRAM="1">
+          <Memory name="IROM1" type="ReadOnly" size="0x00200000" startValue="0x08000000"/>
+          <Memory name="IRAM1" type="ReadWrite" size="0x00030000" startValue="0x20000000"/>
+          <Memory name="IROM2" type="ReadOnly" size="" startValue=""/>
+          <Memory name="IRAM2" type="ReadWrite" size="" startValue=""/>
+        </MemoryAreas>
+        <LocateLinkFile path="./stm32f429zi_flash.ld" type="0"/>
+      </Link>
+      <Output>
+        <Option name="OutputFileType" value="0"/>
+        <Option name="Path" value="./"/>
+        <Option name="Name" value="test1"/>
+        <Option name="HEX" value="1"/>
+        <Option name="BIN" value="1"/>
+      </Output>
+      <User>
+        <UserRun name="Run#1" type="Before" checked="0" value=""/>
+        <UserRun name="Run#1" type="After" checked="0" value=""/>
+      </User>
+    </BuildOption>
+    <DebugOption>
+      <Option name="org.coocox.codebugger.gdbjtag.core.adapter" value="ST-Link"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.debugMode" value="SWD"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.clockDiv" value="1M"/>
+      <Option name="org.coocox.codebugger.gdbjtag.corerunToMain" value="1"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.jlinkgdbserver" value=""/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.userDefineGDBScript" value=""/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.targetEndianess" value="0"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.jlinkResetMode" value="Type 0: Normal"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.resetMode" value="SYSRESETREQ"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.ifSemihost" value="0"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.ifCacheRom" value="1"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.ipAddress" value="127.0.0.1"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.portNumber" value="2009"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.autoDownload" value="1"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.verify" value="1"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.downloadFuction" value="Erase Effected"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.defaultAlgorithm" value="C:\Users\D203C-01\AppData\Roaming\CooCox\CoIDE\config\flash\CooCox-Flash\CoIDE_STM32F4xx_2048K\STM32F4xx_2048.elf"/>
+    </DebugOption>
+    <ExcludeFile/>
+  </Target>
+  <Components path="./"/>
+  <LocalComponents/>
+  <Files>
+    <File name="App/main.c" path="app/main.c" type="1"/>
+    <File name="Hardware" path="" type="2"/>
+    <File name="Hardware/stm32f4xx_hal.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h" type="1"/>
+    <File name="App" path="" type="2"/>
+    <File name="Core/core_cmFunc.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cmFunc.h" type="1"/>
+    <File name="Config/stm32f429xx.h" path="app/stm32f429xx.h" type="1"/>
+    <File name="Hardware/stm32f4xx_hal_cortex.c" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c" type="1"/>
+    <File name="App/Rcc.h" path="app/Rcc.h" type="1"/>
+    <File name="Hardware/stm32f4xx_hal_rcc.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h" type="1"/>
+    <File name="Core/core_cmSimd.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cmSimd.h" type="1"/>
+    <File name="Config/system_stm32f4xx.h" path="app/system_stm32f4xx.h" type="1"/>
+    <File name="Config/stm32f4xx.h" path="app/stm32f4xx.h" type="1"/>
+    <File name="Core/core_cmInstr.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cmInstr.h" type="1"/>
+    <File name="App/Gpio.c" path="app/Gpio.c" type="1"/>
+    <File name="App/Adc.c" path="../DegreeSEM2/Blinky/app/Adc.c" type="1"/>
+    <File name="Config/system_stm32f4xx.c" path="app/system_stm32f4xx.c" type="1"/>
+    <File name="App/Rcc.c" path="app/Rcc.c" type="1"/>
+    <File name="Config/stm32f4xx_hal_conf.h" path="app/stm32f4xx_hal_conf.h" type="1"/>
+    <File name="Core/core_cm4.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cm4.h" type="1"/>
+    <File name="Config/startup_stm32f429xx.s" path="app/startup_stm32f429xx.s" type="1"/>
+    <File name="Hardware/stm32f4xx_hal_def.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h" type="1"/>
+    <File name="Hardware/stm32f4xx_hal_cortex.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h" type="1"/>
+    <File name="App/Gpio.h" path="app/Gpio.h" type="1"/>
+    <File name="Hardware/stm32f4xx_hal_rcc.c" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c" type="1"/>
+    <File name="Core" path="" type="2"/>
+    <File name="App/Adc.h" path="../DegreeSEM2/Blinky/app/Adc.h" type="1"/>
+    <File name="Config" path="" type="2"/>
+  </Files>
+  <Bookmarks/>
+</Project>
