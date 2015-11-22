@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "Gpio.h"
+#include "Adc.h"
 
 typedef struct RCC_Type RCC_t;
 struct RCC_Type{
@@ -46,6 +47,13 @@ struct RCC_Type{
 
 #define RCC_reg	((RCC_t*)0x40023800)
 
+#define GPIOx_ENABLE_CLOCK(x)	(0x00100000 | (1 << (x)))
+#define GPIOx_RESET(x)			(1 << (x))
+
+#define ADCx_ENABLE_CLOCK(x)	(1 << (x + 8))
+#define ADC_RESET				(1 << 8)
+
 void gpioUnresetEnableClock(GPIO* port);
+void adcUnresetEnableClock(ADC* aDCx);
 
 #endif	//__Rcc_H__
