@@ -10,10 +10,19 @@
  *
  * @aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
  */
-void configureADC(ADC* aDCx){
+void configureADC(ADC_t* aDCx){
 	adcUnresetEnableClock(aDCx);
 	aDCx->CR2 |= AWAKEN_ADC;
 	aDCx->CR1 |= EOC_INTERRUPT_ENB;
+	aDCx->CR1 |= JEOC_INTERRUPT_ENB;
+	//***TO BE REMOVED AS SEPERATE FUNCTION*******
+	aDCx->SQR3	= 0;
+	aDCx->SQR1	&= ~(15 << 20);
+	aDCx->CR2	&= ~CONTINUOUS_CONVERSION;
+	aDCx->CR2	|= RIGHT_ALIGN;
+	aDCx->CR1 |= EOC_INTERRUPT_ENB;
+	aDCx->CR1 |= JEOC_INTERRUPT_ENB;
+	//********************************************
 }
 
 /**
@@ -27,7 +36,7 @@ void configureADC(ADC* aDCx){
  * @aDCx	is the selection of ADC (ADC1, ADC2 or ADC3)
  * @res		is the resolution of the result, (6, 8, 10 or 12)bits
  */
-void setResolution(int res, ADC* aDCx){
+void setResolution(int res, ADC_t* aDCx){
 	aDCx->CR1 &= ~(3 << 24);	//MASK RESOLUTION control bits
 	aDCx->CR1 |= res << 24;
 }
@@ -41,7 +50,7 @@ void setResolution(int res, ADC* aDCx){
  * @aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
  * @sampTime	is the resolution of the result, (6, 8, 10 or 12)bits
  */
-void setSampleTime(SampleTime sampTime, ADC* aDCx, int channel){
+void setSampleTime(SampleTime sampTime, ADC_t* aDCx, int channel){
 	if(channel < 10){
 		aDCx->SMPR2 &= ~(7 << channel);	//MASK SAMPLING TIME control bits
 		aDCx->SMPR2 |= (sampTime << channel*3);
@@ -52,6 +61,17 @@ void setSampleTime(SampleTime sampTime, ADC* aDCx, int channel){
 	}
 }
 
+void enableVbat(void){
+	COMMON_ADC->CCR |= ENABLE_VBAT;
+}
+
+//int readVbatValue(ADC_t* aDCx){
+//
+//
+//
+//}
+
+
 /**
  * getRegularData:
  *
@@ -59,7 +79,7 @@ void setSampleTime(SampleTime sampTime, ADC* aDCx, int channel){
  *
  * @aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
  */
-int getRegularData(ADC* aDCx){
+int getRegularData(ADC_t* aDCx){
 	return aDCx->DR;
 }
 
@@ -71,8 +91,8 @@ int getRegularData(ADC* aDCx){
  * @aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
  * @queue		is the current position in the sequence of queue in the list
  */
-int getInjectedData(ADC* aDCx, int queue){
-	switch(queue)
+int getInjectedData(ADC_t* aDCx, int queue){
+	switch(queue){
 	case 0:
 		return aDCx->JDR1;
 		break;
@@ -88,4 +108,16 @@ int getInjectedData(ADC* aDCx, int queue){
 	default:
 		return aDCx->JDR1;
 		break;
+	}
+}
+
+/**
+ * startRegularConv:
+ *
+ * This function start the conversion of the regular group
+ *
+ * @aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
+ */
+void startRegularConv(ADC_t* aDCx){
+	aDCx->CR2 |= START_REGULAR_CONVERSION;
 }

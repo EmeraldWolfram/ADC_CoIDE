@@ -66,7 +66,7 @@ void configureOutput(int speed, int pinNum, GPIO *port){
 void configureInput(int pullMeth, int pinNum, GPIO *port){
 	gpioUnresetEnableClock(port);
 	port->MODER &= ~(3 << (pinNum*2));		//MASK MODER reg and CLEAR selected bits
-	port->MODER |= GPIO_MODE_INPUT << (pinNum*2));
+	port->MODER |= GPIO_MODE_INPUT << (pinNum*2);
 	port->PUPDR &= ~(3 << (pinNum*2));
 	port->PUPDR |= pullMeth << (pinNum*2);
 }

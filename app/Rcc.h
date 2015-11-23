@@ -54,6 +54,6 @@ struct RCC_Type{
 #define ADC_RESET				(1 << 8)
 
 void gpioUnresetEnableClock(GPIO* port);
-void adcUnresetEnableClock(ADC* aDCx);
+void adcUnresetEnableClock(ADC_t* aDCx);
 
 #endif	//__Rcc_H__

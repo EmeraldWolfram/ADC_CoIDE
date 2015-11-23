@@ -7,7 +7,7 @@ void gpioUnresetEnableClock(GPIO* port){
 	RCC_reg->RCC_AHB1ENR	|= GPIOx_ENABLE_CLOCK(valToShift);
 }
 
-void adcUnresetEnableClock(ADC* aDCx){
+void adcUnresetEnableClock(ADC_t* aDCx){
 	int x = ((int)aDCx - 0x40012000)/(0x100);
 
 	RCC_reg->RCC_APB2ENR	|= ADCx_ENABLE_CLOCK(x);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Project version="2G - 2.0.2" name="test1">
   <Target name="test1" isCurrent="1">
-    <Device manufacturerId="9" manufacturerName="ST" chipId="287" chipName="STM32F429ZI" boardId="" boardName="" boardUrl="" coreId="4" coreName="Cortex M4"/>
+    <Device manufacturerId="9" manufacturerName="ST" chipId="287" chipName="STM32F429ZI" boardId="" boardName="" coreId="4" coreName="Cortex M4"/>
     <BuildOption>
       <Compile>
         <Option name="OptimizationLevel" value="0"/>
@@ -16,6 +16,7 @@
         <DefinedSymbols>
           <Define name="STM32F429ZI"/>
           <Define name="STM32F429xx"/>
+          <Define name="STM32F429_439xx"/>
         </DefinedSymbols>
       </Compile>
       <Link useDefault="0">
@@ -73,30 +74,30 @@
   <Files>
     <File name="App/main.c" path="app/main.c" type="1"/>
     <File name="Hardware" path="" type="2"/>
-    <File name="Hardware/stm32f4xx_hal.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h" type="1"/>
+    <File name="Hardware/stm32f4xx_hal.h" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h" type="1"/>
     <File name="App" path="" type="2"/>
-    <File name="Core/core_cmFunc.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cmFunc.h" type="1"/>
+    <File name="Core/core_cmFunc.h" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cmFunc.h" type="1"/>
     <File name="Config/stm32f429xx.h" path="app/stm32f429xx.h" type="1"/>
-    <File name="Hardware/stm32f4xx_hal_cortex.c" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c" type="1"/>
+    <File name="Hardware/stm32f4xx_hal_cortex.c" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c" type="1"/>
     <File name="App/Rcc.h" path="app/Rcc.h" type="1"/>
-    <File name="Core/core_cmSimd.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cmSimd.h" type="1"/>
-    <File name="Hardware/stm32f4xx_hal_rcc.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h" type="1"/>
+    <File name="Hardware/stm32f4xx_hal_rcc.h" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h" type="1"/>
+    <File name="Core/core_cmSimd.h" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cmSimd.h" type="1"/>
     <File name="Config/system_stm32f4xx.h" path="app/system_stm32f4xx.h" type="1"/>
     <File name="Config/stm32f4xx.h" path="app/stm32f4xx.h" type="1"/>
-    <File name="Core/core_cmInstr.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cmInstr.h" type="1"/>
+    <File name="Core/core_cmInstr.h" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cmInstr.h" type="1"/>
     <File name="App/Gpio.c" path="app/Gpio.c" type="1"/>
-    <File name="App/Adc.c" path="../Blinky/app/Adc.c" type="1"/>
+    <File name="App/Adc.c" path="app/Adc.c" type="1"/>
     <File name="Config/system_stm32f4xx.c" path="app/system_stm32f4xx.c" type="1"/>
-    <File name="Config/stm32f4xx_hal_conf.h" path="app/stm32f4xx_hal_conf.h" type="1"/>
     <File name="App/Rcc.c" path="app/Rcc.c" type="1"/>
-    <File name="Core/core_cm4.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cm4.h" type="1"/>
+    <File name="Config/stm32f4xx_hal_conf.h" path="app/stm32f4xx_hal_conf.h" type="1"/>
+    <File name="Core/core_cm4.h" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cm4.h" type="1"/>
     <File name="Config/startup_stm32f429xx.s" path="app/startup_stm32f429xx.s" type="1"/>
-    <File name="Hardware/stm32f4xx_hal_def.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h" type="1"/>
-    <File name="Hardware/stm32f4xx_hal_cortex.h" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h" type="1"/>
+    <File name="Hardware/stm32f4xx_hal_def.h" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h" type="1"/>
+    <File name="Hardware/stm32f4xx_hal_cortex.h" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h" type="1"/>
     <File name="App/Gpio.h" path="app/Gpio.h" type="1"/>
-    <File name="Hardware/stm32f4xx_hal_rcc.c" path="../../../CoIDE/workspace/stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c" type="1"/>
+    <File name="Hardware/stm32f4xx_hal_rcc.c" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.c" type="1"/>
     <File name="Core" path="" type="2"/>
-    <File name="App/Adc.h" path="../Blinky/app/Adc.h" type="1"/>
+    <File name="App/Adc.h" path="app/Adc.h" type="1"/>
     <File name="Config" path="" type="2"/>
   </Files>
   <Bookmarks/>
