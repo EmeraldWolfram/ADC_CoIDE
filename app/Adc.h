@@ -68,6 +68,28 @@ struct CommonADC_t{
 #define ADC2    	((ADC_t*)0x40012100)
 #define ADC3    	((ADC_t*)0x40012200)
 
+typedef enum{
+	Channel_0,
+	Channel_1,
+	Channel_2,
+	Channel_3,
+	Channel_4,
+	Channel_5,
+	Channel_6,
+	Channel_7,
+	Channel_8,
+	Channel_9,
+	Channel_10,
+	Channel_11,
+	Channel_12,
+	Channel_13,
+	Channel_14,
+	Channel_15,
+	Channel_16,
+	Channel_17,
+	Channel_18
+}Channel;
+//**************************************************************
 #define AWAKEN_ADC	1
 #define RIGHT_ALIGN	(1 << 11)
 
@@ -76,16 +98,19 @@ struct CommonADC_t{
 
 #define EOC_INTERRUPT_ENB		(1 << 5)
 #define JEOC_INTERRUPT_ENB		(1 << 7)
-//********************************************
+#define AWD_INTERRUPT_ENB		(1 << 6)
+
 #define ENABLE_WATCHDOG			(1 << 23)
 #define ENABLE_JWATCHDOG		(1 << 22)
 //Mode (Single Mode or ContinuousMode)********
 #define CONTINUOUS_CONVERSION	(1 << 1)
 //Resolution**********************************
-#define RESOLUTION_12_BITS	0
-#define RESOLUTION_10_BITS	1
-#define RESOLUTION_8_BITS	2
-#define RESOLUTION_6_BITS	3
+typedef enum{
+	RESOLUTION_12_BITS,
+	RESOLUTION_10_BITS,
+	RESOLUTION_8_BITS,
+	RESOLUTION_6_BITS
+}Resolution;
 //********************************************
 #define ENABLE_VBAT				(1 << 22)
 #define ENABLE_TEMP_AND_VREFINT	(1 << 23)
@@ -103,19 +128,19 @@ typedef enum{
 
 void configureADC(ADC_t* aDCx);
 
-void setResolution(int res, ADC_t* aDCx);
-void setSampleTime(SampleTime sampTime, ADC_t* aDCx, int channel);
-
-//void setRegularQueue(int numOfChannel);	//SET QUEUE (TO DO)
-void enableVbat();
-int readVbatValue();
-
-void enableTempSensor();
-void enableVref();
+void setResolution(Resolution res, ADC_t* aDCx);
+void setSampleTime(SampleTime sampTime, ADC_t* aDCx, Channel channel);
 
 int getRegularData(ADC_t* aDCx);
 int getInjectedData(ADC_t* aDCx, int queue);
 
 void startRegularConv(ADC_t* aDCx);
+void startInjectedConv(ADC_t* aDCx);
+
+void addRegularQueue(ADC_t* aDCx, Channel channel);	//Add a queue to the regular group
+void addInjectedQueue(ADC_t* aDCx, Channel channel);
+
+void enableVbat();
+void enableTempSensor();
 
 #endif	//__Adc_H__
