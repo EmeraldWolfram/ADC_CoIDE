@@ -91,7 +91,7 @@ typedef enum{
 }Channel;
 //**************************************************************
 #define AWAKEN_ADC	1
-#define RIGHT_ALIGN	(1 << 11)
+#define LEFT_ALIGN	(1 << 11)
 
 #define START_REGULAR_CONVERSION	(1 << 30)
 #define START_INJECT_CONVERSION		(1 << 22)
@@ -104,6 +104,7 @@ typedef enum{
 #define ENABLE_JWATCHDOG		(1 << 22)
 //Mode (Single Mode or ContinuousMode)********
 #define CONTINUOUS_CONVERSION	(1 << 1)
+#define SET_JAUTO				(1 << 10)
 //Resolution**********************************
 typedef enum{
 	RESOLUTION_12_BITS,
@@ -126,6 +127,11 @@ typedef enum{
 	CYCLE_480
 }SampleTime;
 
+typedef enum{
+	NO,
+	YES
+}Question;
+
 void configureADC(ADC_t* aDCx);
 
 void setResolution(Resolution res, ADC_t* aDCx);
@@ -142,5 +148,8 @@ void addInjectedQueue(ADC_t* aDCx, Channel channel);
 
 void enableVbat();
 void enableTempSensor();
+
+void enableRegularWD(ADC_t* aDCx, Question useIRQ);
+void enableInjectedWD(ADC_t* aDCx, Question useIRQ);
 
 #endif	//__Adc_H__

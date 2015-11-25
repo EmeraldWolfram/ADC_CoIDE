@@ -21,7 +21,8 @@
  * 9. addInjectedQueue
  * 10. enableVbat
  * 11. enableTempSensor
- *
+ * 12. enableRegularWD
+ * 13. enableInjectedWD
  ****************************************************************************
  ****************************************************************************
  *
@@ -31,7 +32,7 @@
  *
  * 1. Alignment of data (Right or Left) default set to right in configureADC
  * 	  For left align, use the following code:
- * 	  aDCx->CR2	&= ~RIGHT_ALIGN;
+ * 	  aDCx->CR2	|= LEFT_ALIGN;
  *
  * 2. Continuous Conversion. default set to single conversion only. It halt after
  * 	  1 conversion. To have continuous conversion, use following code
@@ -75,11 +76,12 @@ void configureADC(ADC_t* aDCx){
 	aDCx->CR1 |= EOC_INTERRUPT_ENB;
 	aDCx->CR1 |= JEOC_INTERRUPT_ENB;
 	aDCx->SQR3	= 0;
-	aDCx->JSQR	= 0;
+	aDCx->JSQR  &= ~(31);
+	aDCx->JSQR	|= 18;
 	aDCx->SQR1	&= ~(15 << 20);
 	aDCx->JSQR	&= ~(3 << 20);
 	aDCx->CR2	&= ~CONTINUOUS_CONVERSION;
-	aDCx->CR2	|= RIGHT_ALIGN;
+	aDCx->CR2	&= ~LEFT_ALIGN;
 	aDCx->CR1	|= EOC_INTERRUPT_ENB;
 	aDCx->CR1	|= JEOC_INTERRUPT_ENB;
 }
@@ -109,7 +111,7 @@ void setResolution(Resolution res, ADC_t* aDCx){
  * @aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
  * @sampTime	is the resolution of the result, (6, 8, 10 or 12)bits
  */
-void setSampleTime(SampleTime sampTime, ADC_t* aDCx, int channel){
+void setSampleTime(SampleTime sampTime, ADC_t* aDCx, Channel channel){
 	if(channel < 10){
 		aDCx->SMPR2 &= ~(7 << channel);
 		aDCx->SMPR2 |= (sampTime << channel*3);
@@ -128,7 +130,8 @@ void setSampleTime(SampleTime sampTime, ADC_t* aDCx, int channel){
  * @aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
  */
 int getRegularData(ADC_t* aDCx){
-	return aDCx->DR;
+	int data = (aDCx->DR);
+	return data;
 }
 
 /**
@@ -260,4 +263,35 @@ void enableVbat(void){
 void enableTempSensor(){
 	COMMON_ADC->CCR |= ENABLE_TEMP_AND_VREFINT;
 	COMMON_ADC->CCR &= ~ENABLE_VBAT;
+}
+
+
+/**
+ * 12. enableRegularWD & 13. enableInjectedWD :
+ *
+ *	This two functions enable the Watchdog feature to guard the input signal
+ *	referencing to the Threshold set in aDCx->HTR and aDCx->LTR.
+ *
+ *	AWD flag will be raised in aDCx->SR when the input signal exceed the limit
+ *
+ *	@aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
+ *	@useIRQ		is the selection of interrupt generation
+ *				YES	= 	generate interrupt when AWD rise
+ *				NO	= 	do not generate interrupt when AWD rise
+ *
+ */
+void enableRegularWD(ADC_t* aDCx, Question useIRQ){
+	aDCx->CR1	|= ENABLE_WATCHDOG;
+	if(useIRQ == YES)
+		aDCx->CR1 |= AWD_INTERRUPT_ENB;
+	else
+		aDCx->CR1 &= ~AWD_INTERRUPT_ENB;
+}
+
+void enableInjectedWD(ADC_t* aDCx, Question useIRQ){
+	aDCx->CR1	|= ENABLE_JWATCHDOG;
+	if(useIRQ == YES)
+		aDCx->CR1 |= AWD_INTERRUPT_ENB;
+	else
+		aDCx->CR1 &= ~AWD_INTERRUPT_ENB;
 }
