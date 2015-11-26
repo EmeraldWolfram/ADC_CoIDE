@@ -26,15 +26,13 @@ int main(void){
 	configureOutput(GPIO_SPEED_V_HIGH, PIN_13, PORTG);
 	int queue;
 	configureAnalog(NO_PULL, PIN_0, PORTA);
-	enableVbat();
-	configureADC(ADC1);
+
+	configADC(ADC1);
 
 	setSampleTime(CYCLE_15, ADC1, Channel_0);
 	setSampleTime(CYCLE_84, ADC1, Channel_18);
-
 	setResolution(RESOLUTION_12_BITS, ADC1);
-	ADC1->CR2 |= CONTINUOUS_CONVERSION;
-	ADC1->CR1 |= SET_JAUTO;
+  
 	startRegularConv(ADC1);
 	startInjectedConv(ADC1);
 

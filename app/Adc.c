@@ -10,7 +10,7 @@
  * This file consist of 11 functions that simplify the development
  * of software using ADC. The function are listed below:
  *
- * 1. configureADC
+ * 1. configADC
  * 2. setResolution
  * 3. setSampleTime
  * 4. getRegularData
@@ -23,6 +23,8 @@
  * 11. enableTempSensor
  * 12. enableRegularWD
  * 13. enableInjectedWD
+ * 14. setContMode
+ * 15. setDisconMode
  ****************************************************************************
  ****************************************************************************
  *
@@ -34,56 +36,40 @@
  * 	  For left align, use the following code:
  * 	  aDCx->CR2	|= LEFT_ALIGN;
  *
- * 2. Continuous Conversion. default set to single conversion only. It halt after
- * 	  1 conversion. To have continuous conversion, use following code
- *    aDCx->CR2 |= CONTINUOUS_CONVERSION;
- *
- * 3. Interrupt usage:
- * 	  To ENABLE, use:
- * 	  a. aDCx->CR1	|= EOC_INTERRUPT_ENB;
- * 	  b. aDCx->CR1	|= JEOC_INTERRUPT_ENB;
- * 	  c. aDCx->CR1	|= AWD_INTERRUPT_ENB;
- *
- * 	  TO DISABLE, use:
- * 	  a. aDCx->CR1	&= ~EOC_INTERRUPT_ENB;
- * 	  b. aDCx->CR1	&= ~JEOC_INTERRUPT_ENB;
- * 	  c. aDCx->CR1	&= ~AWD_INTERRUPT_ENB;
- *
- * 4. Enable watch dog for threshold voltage use on:
- *    a. Regular Group, use:
- *    	 aDCx->CR1	|= ENABLE_WATCHDOG;
- *    b. Injected Group, use:
- *       aDCx->CR1	|= ENABLE_JWATCHDOG;
  ****************************************************************************
  ****************************************************************************
  ****************************************************************************
- * 1. configureADC:
+ * 1. configADC:
  *
  * This function enable the ADCx by awaken the ADCx and enable the CLOCK
- * - Enabled EOC and JEOC
- * - Channel 0 set as 1st and only conversion in both queue
+ * - Enabled EOC and JEOC to generate Interrupt
+ * - Channel 0 set as 1st and only conversion in regular queue
+ * - Channel 18 (Vbat) set as 1st and only conversion in injected queue
  * - Data obtained is right aligned
- * - Single Conversion Mode
- *
+ * - Only 1 conversion will be done
+ * 
  * NOTE: It call adcUnresetEnableClock in Rcc.h to enable the CLOCK
  *
  * @aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
- *****************************************************************************
  *****************************************************************************/
-void configureADC(ADC_t* aDCx){
+void configADC(ADC_t* aDCx){
 	adcUnresetEnableClock(aDCx);
-	aDCx->CR2 |= AWAKEN_ADC;
+  
+	aDCx->CR2 |= AWAKEN_ADC;      //Wake up the ADC
+  
+  /*****Enable EOC interrupts*****/
 	aDCx->CR1 |= EOC_INTERRUPT_ENB;
 	aDCx->CR1 |= JEOC_INTERRUPT_ENB;
-	aDCx->SQR3	= 0;
-	aDCx->JSQR  &= ~(31);
-	aDCx->JSQR	|= 18;
-	aDCx->SQR1	&= ~(15 << 20);
-	aDCx->JSQR	&= ~(3 << 20);
-	aDCx->CR2	&= ~CONTINUOUS_CONVERSION;
-	aDCx->CR2	&= ~LEFT_ALIGN;
-	aDCx->CR1	|= EOC_INTERRUPT_ENB;
-	aDCx->CR1	|= JEOC_INTERRUPT_ENB;
+  /*******************************/
+  COMMON_ADC->CCR |= ENABLE_VBAT;     //Enable Vbat for Injected Group
+	aDCx->JSQR	&= ~(3 << 20);          //1 Conversion in Injected Group
+	aDCx->JSQR	|= Channel_18;          //Queue Channel_18 (Vbat) to Injected Group
+  
+	aDCx->SQR1	&= ~(15 << 20);         //1 Conversion in Regular Group
+	aDCx->SQR3	|= Channel_0;           //Queue Channel_0 (PA0) to Injected Group
+  
+	aDCx->CR2	&= ~CONTINUOUS_CONVERSION;  //Single Conversion and END
+	aDCx->CR2	&= ~LEFT_ALIGN;             //Right Align Data
 }
 
 /**
@@ -265,7 +251,6 @@ void enableTempSensor(){
 	COMMON_ADC->CCR &= ~ENABLE_VBAT;
 }
 
-
 /**
  * 12. enableRegularWD & 13. enableInjectedWD :
  *
@@ -278,10 +263,9 @@ void enableTempSensor(){
  *	@useIRQ		is the selection of interrupt generation
  *				YES	= 	generate interrupt when AWD rise
  *				NO	= 	do not generate interrupt when AWD rise
- *
  */
 void enableRegularWD(ADC_t* aDCx, Question useIRQ){
-	aDCx->CR1	|= ENABLE_WATCHDOG;
+	aDCx->CR1	|= ENABLE_REGULAR_WATCHDOG;
 	if(useIRQ == YES)
 		aDCx->CR1 |= AWD_INTERRUPT_ENB;
 	else
@@ -289,9 +273,64 @@ void enableRegularWD(ADC_t* aDCx, Question useIRQ){
 }
 
 void enableInjectedWD(ADC_t* aDCx, Question useIRQ){
-	aDCx->CR1	|= ENABLE_JWATCHDOG;
+	aDCx->CR1	|= ENABLE_INJECTED_WATCHDOG;
 	if(useIRQ == YES)
 		aDCx->CR1 |= AWD_INTERRUPT_ENB;
 	else
 		aDCx->CR1 &= ~AWD_INTERRUPT_ENB;
+}
+
+/**
+ * XX. setContMode
+ *
+ *	This function enable both the Regular Group and Injected Group to
+ *  perform ADC continuosly. However, it remove the higher priority of
+ *  Injected Group to Regular Group, making both Group sharing the same
+ *  priority. To DISABLE the auto conversion on Injected Group, enter
+ *    aDCx->CR1 &= ~SET_JAUTO;
+ *  into your function.
+ *
+ *	@aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
+ */
+
+void setContMode(ADC_t* aDCx){
+  aDCx->CR2 |= CONTINUOUS_CONVERSION;
+  aDCx->CR1 |= SET_JAUTO;
+}
+
+/**
+ * XX. setDisconMode
+ *
+ *	This function enable the selected group to chop the queue into
+ *  smaller group of channels queue. Eg. Regular Group queued 
+ *  1. Channel_0
+ *  2. Channel_1
+ *  3. Channel_6
+ *  4. Channel_7
+ *  5. Channel_12
+ *
+ *  with grp = REGULAR_GROUP and numOfChnDiscon = 3
+ *  the conversion will perform when triggered
+ *  1. Channel_0
+ *  2. Channel_1
+ *  3. Channel_6
+ *  Then, it wait for second trigger and convert
+ *  1. Channel_7
+ *  2. Channel_12
+ *  Then restart from Channel_0 upon the 3rd time trigger
+ *
+ *	@aDCx		          is the selection of ADC (ADC1, ADC2 or ADC3)
+ *	@grp		          is the selection of Group (REGULAR_GROUP or INJECTED_GROUP)
+ *	@numOfChnDiscon		is the number of channel to be chop into a small group
+ */
+void setDisconMode(ADC_t* aDCx, int grp, int numOfChnDiscon){
+  if(grp == REGULAR_GROUP){
+    aDCx->CR1 |= ENABLE_REGULAR_DISCON;
+    aDCx->CR1 |= numOfChnDiscon << 13;
+  }
+  else{
+    aDCx->CR1 |= ENABLE_INJECTED_DISCON;
+    aDCx->CR1 |= numOfChnDiscon << 13;
+    aDCx->CR1 &= ~SET_JAUTO;            //JAUTO cannot be set together with DISCON, check datasheet
+  }
 }

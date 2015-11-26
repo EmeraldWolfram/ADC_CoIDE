@@ -97,14 +97,22 @@ typedef enum{
 #define START_INJECT_CONVERSION		(1 << 22)
 
 #define EOC_INTERRUPT_ENB		(1 << 5)
-#define JEOC_INTERRUPT_ENB		(1 << 7)
+#define JEOC_INTERRUPT_ENB	(1 << 7)
 #define AWD_INTERRUPT_ENB		(1 << 6)
 
-#define ENABLE_WATCHDOG			(1 << 23)
-#define ENABLE_JWATCHDOG		(1 << 22)
-//Mode (Single Mode or ContinuousMode)********
-#define CONTINUOUS_CONVERSION	(1 << 1)
-#define SET_JAUTO				(1 << 10)
+#define ENABLE_REGULAR_WATCHDOG			(1 << 23)
+#define ENABLE_INJECTED_WATCHDOG		(1 << 22)
+
+#define CONTINUOUS_CONVERSION	  (1 << 1)
+#define SET_JAUTO				        (1 << 10)
+#define ENABLE_REGULAR_DISCON   (1 << 11)
+#define ENABLE_INJECTED_DISCON  (1 << 12)
+
+#define ENABLE_VBAT				(1 << 22)
+#define ENABLE_TEMP_AND_VREFINT	(1 << 23)
+
+#define REGULAR_GROUP   0
+#define INJECTED_GROUP  1
 //Resolution**********************************
 typedef enum{
 	RESOLUTION_12_BITS,
@@ -112,10 +120,7 @@ typedef enum{
 	RESOLUTION_8_BITS,
 	RESOLUTION_6_BITS
 }Resolution;
-//********************************************
-#define ENABLE_VBAT				(1 << 22)
-#define ENABLE_TEMP_AND_VREFINT	(1 << 23)
-
+//SampleTime**********************************
 typedef enum{
 	CYCLE_3,
 	CYCLE_15,
@@ -132,7 +137,7 @@ typedef enum{
 	YES
 }Question;
 
-void configureADC(ADC_t* aDCx);
+void configADC(ADC_t* aDCx);
 
 void setResolution(Resolution res, ADC_t* aDCx);
 void setSampleTime(SampleTime sampTime, ADC_t* aDCx, Channel channel);
@@ -151,5 +156,8 @@ void enableTempSensor();
 
 void enableRegularWD(ADC_t* aDCx, Question useIRQ);
 void enableInjectedWD(ADC_t* aDCx, Question useIRQ);
+
+void setContMode(ADC_t* aDCx);
+void setDisconMode(ADC_t* aDCx, int grp, int numOfChnDiscon);
 
 #endif	//__Adc_H__
