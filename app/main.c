@@ -22,6 +22,12 @@ void ADC_IRQHandler(void){
 
 
 int main(void){
+//	uint32_t fsys = HAL_RCC_GetSysClockFreq();
+	uint32_t calSys = getSystemClock();
+	uint32_t calp2	= getAPB2Clock(calSys);
+//	uint32_t fp1	= HAL_RCC_GetPCLK1Freq();
+//	uint32_t fp2	= HAL_RCC_GetPCLK2Freq();
+
 	configureOutput(GPIO_SPEED_V_HIGH, PIN_14, PORTG);
 	configureOutput(GPIO_SPEED_V_HIGH, PIN_13, PORTG);
 	int queue;

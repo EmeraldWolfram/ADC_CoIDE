@@ -111,8 +111,8 @@ typedef enum{
 #define ENABLE_VBAT				(1 << 22)
 #define ENABLE_TEMP_AND_VREFINT	(1 << 23)
 
-#define REGULAR_GROUP   0
-#define INJECTED_GROUP  1
+#define REGULAR_GRP   0
+#define INJECTED_GRP  1
 //Resolution**********************************
 typedef enum{
 	RESOLUTION_12_BITS,

@@ -309,7 +309,7 @@ void setContMode(ADC_t* aDCx){
  *  4. Channel_7
  *  5. Channel_12
  *
- *  with grp = REGULAR_GROUP and numOfChnDiscon = 3
+ *  with grp = REGULAR_GRP and numOfChnDiscon = 3
  *  the conversion will perform when triggered
  *  1. Channel_0
  *  2. Channel_1
@@ -320,11 +320,11 @@ void setContMode(ADC_t* aDCx){
  *  Then restart from Channel_0 upon the 3rd time trigger
  *
  *	@aDCx		          is the selection of ADC (ADC1, ADC2 or ADC3)
- *	@grp		          is the selection of Group (REGULAR_GROUP or INJECTED_GROUP)
+ *	@grp		          is the selection of Group (REGULAR_GRP or INJECTED_GRP)
  *	@numOfChnDiscon		is the number of channel to be chop into a small group
  */
 void setDisconMode(ADC_t* aDCx, int grp, int numOfChnDiscon){
-  if(grp == REGULAR_GROUP){
+  if(grp == REGULAR_GRP){
     aDCx->CR1 |= ENABLE_REGULAR_DISCON;
     aDCx->CR1 |= numOfChnDiscon << 13;
   }
