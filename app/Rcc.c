@@ -45,7 +45,6 @@ uint32_t getSystemClock(){
 uint32_t getAPB2Clock(uint32_t sysClock){
 	int divAPB2, aPB2Clock;
 
-
 	if(ENABLE_APB2_PRESCALE)
 		divAPB2 = 1 << (((RCC_reg->RCC_CFGR >> 13) & 3) + 1);
 	else

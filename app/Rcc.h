@@ -55,12 +55,14 @@ struct RCC_Type{
 
 #define INTERNAL_CLOCK	  16000000
 #define CRYSTAL_CLOCK	   8000000
+//#define CRYSTAL_CLOCK	8000000000
 
 #define ENABLE_APB2_PRESCALE	((RCC_reg->RCC_CFGR >> 15) & 1)
 
 
 void gpioUnresetEnableClock(GPIO* port);
 void adcUnresetEnableClock(ADC_t* aDCx);
+void adcInitAPB2Clock();
 
 uint32_t getSystemClock();
 uint32_t getAPB2Clock(uint32_t sysClock);

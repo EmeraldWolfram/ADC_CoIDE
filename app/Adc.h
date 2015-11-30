@@ -137,6 +137,7 @@ typedef enum{
 	YES
 }Question;
 
+
 void configADC(ADC_t* aDCx);
 
 void setResolution(Resolution res, ADC_t* aDCx);

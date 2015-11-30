@@ -3,10 +3,11 @@
 #include "Gpio.h"
 #include "Adc.h"
 
+int count = 0;
 void ADC_IRQHandler(void){
 	int regStatus	= ADC1->SR;
 	int injStatus	= ADC1->SR;
-	int count;
+
 	volatile int regResult, injResult;
 	regStatus	&= 2;
 	injStatus	&= 4;
@@ -18,6 +19,7 @@ void ADC_IRQHandler(void){
 		injResult = getInjectedData(ADC1, 0);
 	}
 	ADC1->SR = 0;
+	count++;
 }
 
 
@@ -38,7 +40,10 @@ int main(void){
 	setSampleTime(CYCLE_15, ADC1, Channel_0);
 	setSampleTime(CYCLE_84, ADC1, Channel_18);
 	setResolution(RESOLUTION_12_BITS, ADC1);
-  
+	setContMode(ADC1);
+
+	ADC1->CR2 |= 3 << 8;	//ENABLE DMA and DDS
+
 	startRegularConv(ADC1);
 	startInjectedConv(ADC1);
 
