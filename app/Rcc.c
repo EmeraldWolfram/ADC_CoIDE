@@ -14,6 +14,14 @@ void adcUnresetEnableClock(ADC_t* aDCx){
 	RCC_reg->RCC_APB2RSTR	&= ~ADC_RESET;
 }
 
+void dmaUnresetEnableClock(DMA_t* dMAx){
+  int x = ((int)dMAx - 0x40026000)/(0x400);
+  
+  RCC_reg->RCC_AHB1ENR  |= DMAx_ENABLE_CLOCK(x);
+  RCC_reg->RCC_AHB1RSTR &= ~DMAx_RESET(x);;
+}
+
+
 uint32_t getSystemClock(){
 	int divM, xN, divP, divAHB;
 	int sysClock;

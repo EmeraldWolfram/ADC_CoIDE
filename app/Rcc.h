@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "Gpio.h"
 #include "Adc.h"
+#include "Dma.h"
 
 typedef struct RCC_Type RCC_t;
 struct RCC_Type{
@@ -48,10 +49,14 @@ struct RCC_Type{
 #define RCC_reg	((RCC_t*)0x40023800)
 
 #define GPIOx_ENABLE_CLOCK(x)	(0x00100000 | (1 << (x)))
-#define GPIOx_RESET(x)			(1 << (x))
+#define GPIOx_RESET(x)			  (1 << (x))
 
 #define ADCx_ENABLE_CLOCK(x)	(1 << (x + 8))
-#define ADC_RESET				(1 << 8)
+#define ADC_RESET				      (1 << 8)
+
+#define DMAx_ENABLE_CLOCK(x)  (1 << (x + 21))
+#define DMAx_RESET(x)         (1 << (x + 21))
+
 
 #define INTERNAL_CLOCK	  16000000
 #define CRYSTAL_CLOCK	   8000000
@@ -62,6 +67,8 @@ struct RCC_Type{
 
 void gpioUnresetEnableClock(GPIO* port);
 void adcUnresetEnableClock(ADC_t* aDCx);
+void dmaUnresetEnableClock(DMA_t* dMAx);
+
 void adcInitAPB2Clock();
 
 uint32_t getSystemClock();
