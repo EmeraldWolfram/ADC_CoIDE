@@ -2,6 +2,7 @@
 
 #include "Gpio.h"
 #include "Adc.h"
+#include "Dma.h"
 
 int count = 0;
 void ADC_IRQHandler(void){
@@ -32,7 +33,7 @@ int main(void){
 
 	configureOutput(GPIO_SPEED_V_HIGH, PIN_14, PORTG);
 	configureOutput(GPIO_SPEED_V_HIGH, PIN_13, PORTG);
-	int queue;
+	int* dmaData;
 	configureAnalog(NO_PULL, PIN_0, PORTA);
 
 	configADC(ADC1);
@@ -48,12 +49,14 @@ int main(void){
 	startInjectedConv(ADC1);
 
 	HAL_NVIC_EnableIRQ(ADC_IRQn);
-
+  
     while(1){
     	writeOne(PIN_13, PORTG);
     	writeZero(PIN_14, PORTG);
     	_delay(100000);
-
+      
+      dmaData = getADC1Data();
+      
     	writeZero(PIN_13, PORTG);
     	writeOne(PIN_14, PORTG);
     	_delay(100000);
