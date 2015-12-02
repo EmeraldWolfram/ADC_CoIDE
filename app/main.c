@@ -23,6 +23,13 @@ void ADC_IRQHandler(void){
 	count++;
 }
 
+void DMA2_Stream0_IRQHandler(void){
+	int dataRead = getADC1Data();
+
+	DMA2->LIFCR	= 0;
+	DMA2->HIFCR	= 0;
+}
+
 
 int main(void){
 //	uint32_t fsys = HAL_RCC_GetSysClockFreq();
@@ -33,9 +40,9 @@ int main(void){
 
 	configureOutput(GPIO_SPEED_V_HIGH, PIN_14, PORTG);
 	configureOutput(GPIO_SPEED_V_HIGH, PIN_13, PORTG);
-	int* dmaData;
+	int dmaData;
 	configureAnalog(NO_PULL, PIN_0, PORTA);
-
+	configDMA();
 	configADC(ADC1);
 
 	setSampleTime(CYCLE_15, ADC1, Channel_0);
@@ -49,6 +56,7 @@ int main(void){
 	startInjectedConv(ADC1);
 
 	HAL_NVIC_EnableIRQ(ADC_IRQn);
+	HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
   
     while(1){
     	writeOne(PIN_13, PORTG);
@@ -56,7 +64,6 @@ int main(void){
     	_delay(100000);
       
       dmaData = getADC1Data();
-      
     	writeZero(PIN_13, PORTG);
     	writeOne(PIN_14, PORTG);
     	_delay(100000);

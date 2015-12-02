@@ -6,7 +6,7 @@ typedef struct DMA_Type DMA_t;
 #include "Rcc.h"
 #include "Adc.h"
 
-struct DMA_t{
+struct DMA_Type{
   volatile uint32_t LISR;
   volatile uint32_t HISR;
   volatile uint32_t LIFCR;
@@ -60,14 +60,15 @@ struct DMA_t{
   volatile uint32_t S7M1AR;
   volatile uint32_t S7FCR;
 };
+
 #define DMA1   ((DMA_t*)0x40026000)
 #define DMA2   ((DMA_t*)0x40026400)
 
 #define DMA1_ENABLE   1
-#define MEMORY_0_BASE_ADDRESS 0x08000000
+#define MEMORY_0_BASE_ADDRESS 0x80000000
 
 
-void adc1DmaConfig();
-int* getADC1Data();
+void configDMA();
+int getADC1Data();
 
 #endif  //__Dma_H__
