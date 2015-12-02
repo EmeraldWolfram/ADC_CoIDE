@@ -161,4 +161,6 @@ void enableInjectedWD(ADC_t* aDCx, Question useIRQ);
 void setContMode(ADC_t* aDCx);
 void setDisconMode(ADC_t* aDCx, int grp, int numOfChnDiscon);
 
+void adcEnableDMA(ADC_t* aDCx);
+
 #endif	//__Adc_H__

@@ -6,7 +6,6 @@ typedef struct GPIO_t GPIO;
 
 #include "Rcc.h"
 
-
 #define	GPIO_OUTPUT	GPIO_MODE_OUTPUT_PP
 #define	GPIO_INPUT	GPIO_MODE_INPUT
 

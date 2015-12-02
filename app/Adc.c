@@ -24,6 +24,8 @@
  * 13. enableInjectedWD
  * 14. setContMode
  * 15. setDisconMode
+ * 16. adcEnableDMA
+ *
  ****************************************************************************
  ****************************************************************************
  *
@@ -60,7 +62,7 @@ void configADC(ADC_t* aDCx){
 	aDCx->CR1 |= EOC_INTERRUPT_ENB;
 	aDCx->CR1 |= JEOC_INTERRUPT_ENB;
   /*******************************/
-  COMMON_ADC->CCR |= ENABLE_VBAT;     //Enable Vbat for Injected Group
+	COMMON_ADC->CCR |= ENABLE_VBAT;     //Enable Vbat for Injected Group
 	aDCx->JSQR	&= ~(3 << 20);          //1 Conversion in Injected Group
 	aDCx->JSQR	|= Channel_18;          //Queue Channel_18 (Vbat) to Injected Group
   
@@ -280,7 +282,7 @@ void enableInjectedWD(ADC_t* aDCx, Question useIRQ){
 }
 
 /**
- * XX. setContMode
+ * 14. setContMode
  *
  *	This function enable both the Regular Group and Injected Group to
  *  perform ADC continuosly. However, it remove the higher priority of
@@ -298,7 +300,7 @@ void setContMode(ADC_t* aDCx){
 }
 
 /**
- * XX. setDisconMode
+ * 15. setDisconMode
  *
  *	This function enable the selected group to chop the queue into
  *  smaller group of channels queue. Eg. Regular Group queued 
@@ -333,3 +335,16 @@ void setDisconMode(ADC_t* aDCx, int grp, int numOfChnDiscon){
     aDCx->CR1 &= ~SET_JAUTO;            //JAUTO cannot be set together with DISCON, check datasheet
   }
 }
+
+/**
+ * 16. adcEnableDMA
+ *
+ *	This function enable the use of DMA to transfer data from DR register to Memory Located
+ *
+ *	@aDCx		          is the selection of ADC (ADC1, ADC2 or ADC3)
+ */
+
+void adcEnableDMA(ADC_t* aDCx){
+	ADC1->CR2 |= 3 << 8;	//ENABLE DMA and DDS
+}
+
