@@ -138,7 +138,7 @@ typedef enum{
 }Question;
 
 
-void configADC(ADC_t* aDCx);
+void configADC(ADC_t* aDCx, Channel regularChannel);
 
 void setResolution(Resolution res, ADC_t* aDCx);
 void setSampleTime(SampleTime sampTime, ADC_t* aDCx, Channel channel);
@@ -161,6 +161,8 @@ void enableInjectedWD(ADC_t* aDCx, Question useIRQ);
 void setContMode(ADC_t* aDCx);
 void setDisconMode(ADC_t* aDCx, int grp, int numOfChnDiscon);
 
-void adcEnableDMA(ADC_t* aDCx);
+void adcEnableSignleDMA(ADC_t* aDCx);
+void adcEnableMultiADC();
+
 
 #endif	//__Adc_H__

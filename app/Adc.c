@@ -53,7 +53,7 @@
  *
  * @aDCx		is the selection of ADC (ADC1, ADC2 or ADC3)
  *****************************************************************************/
-void configADC(ADC_t* aDCx){
+void configADC(ADC_t* aDCx, Channel regularChannel){
 	adcUnresetEnableClock(aDCx);
   
 	aDCx->CR2 |= AWAKEN_ADC;      //Wake up the ADC
@@ -67,7 +67,7 @@ void configADC(ADC_t* aDCx){
 	aDCx->JSQR	|= Channel_18;          //Queue Channel_18 (Vbat) to Injected Group
   
 	aDCx->SQR1	&= ~(15 << 20);         //1 Conversion in Regular Group
-	aDCx->SQR3	|= Channel_0;           //Queue Channel_0 (PA0) to Injected Group
+	aDCx->SQR3	|= regularChannel;           //Queue Channel_0 (PA0) to Injected Group
   
 	aDCx->CR2	&= ~CONTINUOUS_CONVERSION;  //Single Conversion and END
 	aDCx->CR2	&= ~LEFT_ALIGN;             //Right Align Data
@@ -337,14 +337,20 @@ void setDisconMode(ADC_t* aDCx, int grp, int numOfChnDiscon){
 }
 
 /**
- * 16. adcEnableDMA
+ * 16. adcEnableSignleDMA	&		17. adcEnableMultiADC
  *
- *	This function enable the use of DMA to transfer data from DR register to Memory Located
+ *	These function enable the use of DMA to transfer data from DR register to Memory Located
  *
  *	@aDCx		          is the selection of ADC (ADC1, ADC2 or ADC3)
  */
 
-void adcEnableDMA(ADC_t* aDCx){
-	ADC1->CR2 |= 3 << 8;	//ENABLE DMA and DDS
+void adcEnableSignleDMA(ADC_t* aDCx){
+	aDCx->CR2 |= 3 << 8;	//ENABLE DMA and DDS
 }
 
+void adcEnableMultiADC(){
+	COMMON_ADC->CCR |= ~(7 << 13);	//MASKED DMA config bits
+	COMMON_ADC->CCR |= 3 << 13;		//Triple ADC Mode
+	COMMON_ADC->CCR |= 0x11;	//ADC1, ADC2, ADC3 working together.
+
+}

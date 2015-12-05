@@ -85,7 +85,13 @@ struct DMA_Type{
 #define ENABLE_ALL_INTERRUPTS		(15 << 1)
 
 void configDMA2ForADC1();
+void configDMA2ForADC2();
+void configDMA2ForADC3();
+
 int* getADC1Data();
+int* getADC2Data();
+int* getADC3Data();
+
 void enableDMA();
 
 #endif  //__Dma_H__

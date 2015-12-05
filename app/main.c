@@ -52,8 +52,16 @@ int main(void){
 	configureOutput(GPIO_SPEED_V_HIGH, PIN_13, PORTG);
 
 	configureAnalog(NO_PULL, PIN_0, PORTA);
+	configureAnalog(NO_PULL, PIN_3, PORTA);
+	configureAnalog(NO_PULL, PIN_6, PORTA);
+
 	configDMA2ForADC1();
-	configADC(ADC1);
+	configDMA2ForADC2();
+	configDMA2ForADC3();
+
+	configADC(ADC1, Channel_0);
+	configADC(ADC2, Channel_3);
+	configADC(ADC3, Channel_6);
 
 
 	setSampleTime(CYCLE_15, ADC1, Channel_0);
@@ -61,7 +69,7 @@ int main(void){
 	setResolution(RESOLUTION_12_BITS, ADC1);
 	setContMode(ADC1);
 
-	adcEnableDMA(ADC1);
+	adcEnableMultiADC();
 	enableDMA();
 
 	startRegularConv(ADC1);
