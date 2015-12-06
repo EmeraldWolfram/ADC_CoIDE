@@ -30,8 +30,10 @@ void DMA2_Stream0_IRQHandler(void){
 	int data1;
 
 	data1 = 0;
-	dataRead[0] = *getADC1Data();
+	dataRead = getADC1Data();
 	data1 = dataRead[0];
+  
+  
 
 	DMA2->LIFCR	= 0;
 	DMA2->HIFCR	= 0;
@@ -43,6 +45,10 @@ int main(void){
 	uint32_t sysCLK = getSystemClock();
 	uint32_t p2CLK	= getAPB2Clock(sysCLK);
 	int dmaStatus = DMA2->LISR;
+  int adc1Status = ADC1->SR;
+  int adcData;
+  
+  
 	uint16_t dmaData;
 
 	dataRead[0] = *getADC1Data();
@@ -59,30 +65,40 @@ int main(void){
 	configDMA2ForADC2();
 	configDMA2ForADC3();
 
-	configADC(ADC1, Channel_0);
+	configADC(ADC1, Channel_0);   //Change to Channel 6 when Multi Mode test
 	configADC(ADC2, Channel_3);
-	configADC(ADC3, Channel_6);
-
+	configADC(ADC3, Channel_0);
+  
+  // addRegularQueue(ADC1, Channel_3);
+  // addRegularQueue(ADC1, Channel_6);
+  
+  addInjectedQueue(ADC1, Channel_3);
+  addInjectedQueue(ADC1, Channel_6);
 
 	setSampleTime(CYCLE_15, ADC1, Channel_0);
-	setSampleTime(CYCLE_84, ADC1, Channel_18);
-	setResolution(RESOLUTION_12_BITS, ADC1);
+	// setSampleTime(CYCLE_84, ADC1, Channel_18);
+  //CHANGE RESOLUTION HERE *************************************************************
+	setResolution(RESOLUTION_8_BITS, ADC1);
 	setContMode(ADC1);
 
-	adcEnableMultiADC();
-	enableDMA();
+	// adcEnableMultiADC();
+	// enableDMA();
 
-	startRegularConv(ADC1);
+	// startRegularConv(ADC1);
 	startInjectedConv(ADC1);
 
 	HAL_NVIC_EnableIRQ(ADC_IRQn);
-	HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+	// HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
   
     while(1){
     	writeOne(PIN_13, PORTG);
     	writeZero(PIN_14, PORTG);
     	_delay(100000);
-
+      
+      // adc1Status = ADC1->SR;
+      // if((adc1Status & 2)!= 0)
+        // adcData = ADC1->DR;
+      
     	writeZero(PIN_13, PORTG);
     	writeOne(PIN_14, PORTG);
     	_delay(100000);

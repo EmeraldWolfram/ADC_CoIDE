@@ -351,6 +351,6 @@ void adcEnableSignleDMA(ADC_t* aDCx){
 void adcEnableMultiADC(){
 	COMMON_ADC->CCR |= ~(7 << 13);	//MASKED DMA config bits
 	COMMON_ADC->CCR |= 3 << 13;		//Triple ADC Mode
-	COMMON_ADC->CCR |= 0x11;	//ADC1, ADC2, ADC3 working together.
+	COMMON_ADC->CCR |= 0x15;	//ADC1, ADC2, ADC3 working together on Regular Simultaneous Mode.
 
 }
