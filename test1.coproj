@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Project version="2G - 2.0.2" name="test1">
   <Target name="test1" isCurrent="1">
-    <Device manufacturerId="9" manufacturerName="ST" chipId="287" chipName="STM32F429ZI" boardId="" boardName="" boardUrl="" coreId="4" coreName="Cortex M4"/>
+    <Device manufacturerId="9" manufacturerName="ST" chipId="287" chipName="STM32F429ZI" boardId="" boardName="" coreId="4" coreName="Cortex M4"/>
     <BuildOption>
       <Compile>
         <Option name="OptimizationLevel" value="0"/>
@@ -65,17 +65,17 @@
       <Option name="org.coocox.codebugger.gdbjtag.core.autoDownload" value="1"/>
       <Option name="org.coocox.codebugger.gdbjtag.core.verify" value="1"/>
       <Option name="org.coocox.codebugger.gdbjtag.core.downloadFuction" value="Erase Effected"/>
-      <Option name="org.coocox.codebugger.gdbjtag.core.defaultAlgorithm" value="C:\Users\GhinY\AppData\Roaming\CooCox\CoIDE\config\flash\CooCox-Flash\CoIDE_STM32F4xx_2048K\STM32F4xx_2048.elf"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.defaultAlgorithm" value="C:\Users\D203C-01\AppData\Roaming\CooCox\CoIDE\config\flash\CooCox-Flash\CoIDE_STM32F4xx_2048K\STM32F4xx_2048.elf"/>
     </DebugOption>
     <ExcludeFile/>
   </Target>
   <Components path="./"/>
   <LocalComponents/>
   <Files>
-    <File name="App/Adc.c" path="app/Adc.c" type="1"/>
     <File name="App/main.c" path="app/main.c" type="1"/>
-    <File name="Config/system_stm32f4xx.c" path="app/system_stm32f4xx.c" type="1"/>
+    <File name="App/Adc.c" path="app/Adc.c" type="1"/>
     <File name="Hardware" path="" type="2"/>
+    <File name="Config/system_stm32f4xx.c" path="app/system_stm32f4xx.c" type="1"/>
     <File name="App" path="" type="2"/>
     <File name="App/Rcc.c" path="app/Rcc.c" type="1"/>
     <File name="Core/core_cm4.h" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/CMSIS/Include/core_cm4.h" type="1"/>
@@ -85,8 +85,8 @@
     <File name="App/Dma.h" path="app/Dma.h" type="1"/>
     <File name="Hardware/stm32f4xx_hal_cortex.h" path="../stm32cubef4/STM32Cube_FW_F4_V1.5.0/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h" type="1"/>
     <File name="App/Gpio.h" path="app/Gpio.h" type="1"/>
-    <File name="App/Rcc.h" path="app/Rcc.h" type="1"/>
     <File name="App/Dma.c" path="app/Dma.c" type="1"/>
+    <File name="App/Rcc.h" path="app/Rcc.h" type="1"/>
     <File name="Config/system_stm32f4xx.h" path="app/system_stm32f4xx.h" type="1"/>
     <File name="Core" path="" type="2"/>
     <File name="App/Adc.h" path="app/Adc.h" type="1"/>

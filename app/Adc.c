@@ -137,10 +137,10 @@ int getInjectedData(ADC_t* aDCx, int queue){
 	case 1:
 		return aDCx->JDR2;
 		break;
-	case 3:
+	case 2:
 		return aDCx->JDR3;
 		break;
-	case 4:
+	case 3:
 		return aDCx->JDR4;
 		break;
 	default:
