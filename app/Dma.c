@@ -34,8 +34,8 @@ void configDMA2ForADC1(){
 
   DMA2->S0.CR   |= DESTINATION_MEM_INCRMENT;	//Increment to Destination Memory
   DMA2->S0.CR   &= ~PERIPHERAL_MEM_INCRMENT;	//Disable increment to peripheral
-  DMA2->S0.CR	&= PERIPHERAL_TO_MEMORY_MODE;
-  DMA2->S0.CR	&= ~PERIPHERAL_CONTROL_FLOW;
+  DMA2->S0.CR	  &= PERIPHERAL_TO_MEMORY_MODE;
+  DMA2->S0.CR	  &= ~PERIPHERAL_CONTROL_FLOW;
   DMA2->S0.CR   |= ENABLE_ALL_INTERRUPTS;
 
   DMA2->S0.NDTR  = 5;                    		//Read 5 times
@@ -47,22 +47,22 @@ void configDMA2ForADC1(){
 void configDMA2ForADC2(){
 	dmaUnresetEnableClock(DMA2);
 	DMA2->S2.CR   &= ~(7 << 25);
-	DMA2->S2.CR   &= 1 << 25;				//Stream 2 Channel 1 ~ (ADC2)
+	DMA2->S2.CR   |= SELECT_CHANNEL_1;				//Stream 2 Channel 1 ~ (ADC2)
 	DMA2->S2.CR   &= ~CT_TARGET_MEM1;		//Target MEMORY 0
 	DMA2->S2.CR   &= ~DOUBLE_BUFFER_MODE;	//Disable Double Buffer Mode
 
 	DMA2->S2.CR   &= ~(3 << 16);					//MASK PRIORITY SET Bits
 	DMA2->S2.CR   |= PRIORITY_HIGH;
 
-	DMA2->S2.CR   &= (3 << 13);
+	DMA2->S2.CR   &= ~(3 << 13);
 	DMA2->S2.CR   |= DEST_H_WORD_SIZE_DATA;
-	DMA2->S2.CR   &= (3 << 11);
+	DMA2->S2.CR   &= ~(3 << 11);
 	DMA2->S2.CR   |= PERIPHERAL_H_WORD_SIZE_DATA;
 
 	DMA2->S2.CR   |= DESTINATION_MEM_INCRMENT;	//Increment to Destination Memory
 	DMA2->S2.CR   &= ~PERIPHERAL_MEM_INCRMENT;	//Disable increment to peripheral
-	DMA2->S2.CR	&= PERIPHERAL_TO_MEMORY_MODE;
-	DMA2->S2.CR	&= ~PERIPHERAL_CONTROL_FLOW;
+	DMA2->S2.CR	  &= PERIPHERAL_TO_MEMORY_MODE;
+	DMA2->S2.CR	  &= ~PERIPHERAL_CONTROL_FLOW;
 	DMA2->S2.CR   |= ENABLE_ALL_INTERRUPTS;
 
 	DMA2->S2.NDTR  = 5;                    		//Read 5 times
@@ -75,22 +75,22 @@ void configDMA2ForADC2(){
 void configDMA2ForADC3(){
 	dmaUnresetEnableClock(DMA2);
 	DMA2->S1.CR   &= ~(7 << 25);
-	DMA2->S1.CR   &= 2 << 25;				//Stream 1 Channel 3 ~ (ADC3)
+	DMA2->S1.CR   |= SELECT_CHANNEL_2;				//Stream 1 Channel 3 ~ (ADC3)
 	DMA2->S1.CR   &= ~CT_TARGET_MEM1;		//Target MEMORY 0
 	DMA2->S1.CR   &= ~DOUBLE_BUFFER_MODE;	//Disable Double Buffer Mode
 
 	DMA2->S1.CR   &= ~(3 << 16);					//MASK PRIORITY SET Bits
 	DMA2->S1.CR   |= PRIORITY_HIGH;
 
-	DMA2->S1.CR   &= (3 << 13);
+	DMA2->S1.CR   &= ~(3 << 13);
 	DMA2->S1.CR   |= DEST_H_WORD_SIZE_DATA;
-	DMA2->S1.CR   &= (3 << 11);
+	DMA2->S1.CR   &= ~(3 << 11);
 	DMA2->S1.CR   |= PERIPHERAL_H_WORD_SIZE_DATA;
 
 	DMA2->S1.CR   |= DESTINATION_MEM_INCRMENT;	//Increment to Destination Memory
 	DMA2->S1.CR   &= ~PERIPHERAL_MEM_INCRMENT;	//Disable increment to peripheral
-	DMA2->S1.CR	&= PERIPHERAL_TO_MEMORY_MODE;
-	DMA2->S1.CR	&= ~PERIPHERAL_CONTROL_FLOW;
+	DMA2->S1.CR	  &= PERIPHERAL_TO_MEMORY_MODE;
+	DMA2->S1.CR	  &= ~PERIPHERAL_CONTROL_FLOW;
 	DMA2->S1.CR   |= ENABLE_ALL_INTERRUPTS;
 
 	DMA2->S1.NDTR  = 5;                    		//Read 5 times
@@ -99,21 +99,15 @@ void configDMA2ForADC3(){
 	DMA2->S1.FCR   = FIFO_DISABLE;                //Disable FIFO
 }
 
-int* getADC1Data(){
-  int *ptrToMemory = buffer1;
-
-  return ptrToMemory;
+uint16_t* getADC1Data(){
+  return buffer1;
 }
-int* getADC2Data(){
-  int *ptrToMemory = buffer2;
-
-  return ptrToMemory;
+uint16_t* getADC2Data(){
+  return buffer2;
 }
 
-int* getADC3Data(){
-	int *ptrToMemory = buffer3;
-
-	return ptrToMemory;
+uint16_t* getADC3Data(){
+	return buffer3;
 }
 
 

@@ -7,7 +7,7 @@
 
 int count = 0;
 int i = 0;
-uint16_t dataRead[256];
+uint16_t *dataRead1, *dataRead2, *dataRead3;
 
 void ADC_IRQHandler(void){
 	int status = ADC1->SR;
@@ -34,13 +34,17 @@ void ADC_IRQHandler(void){
 
 void DMA2_Stream0_IRQHandler(void){
 
-	int data1;
-
+	int data1, data2, data3;
+  
 	data1 = 0;
-	dataRead = getADC1Data();
-	data1 = dataRead[0];
-
-
+	data2 = 0;
+	data3 = 0;
+	dataRead1 = getADC1Data();
+	dataRead2 = getADC2Data();
+	dataRead3 = getADC3Data();
+	data1 = dataRead1[0];
+  data2 = dataRead2[0];
+  data3 = dataRead3[0];
 
 	DMA2->LIFCR	= 0;
 	DMA2->HIFCR	= 0;
@@ -65,32 +69,30 @@ int main(void){
 	configureAnalog(NO_PULL, PIN_3, PORTA);
 	configureAnalog(NO_PULL, PIN_6, PORTA);
 
-	//	configDMA2ForADC1();
-	//	configDMA2ForADC2();
-	//	configDMA2ForADC3();
+	configDMA2ForADC1();
+	configDMA2ForADC2();
+	configDMA2ForADC3();
 
-	configADC(ADC1, Channel_0);   //Change to Channel 6 when Multi Mode test
-	//	configADC(ADC2, Channel_3);
-	//	configADC(ADC3, Channel_0);
+	configADC(ADC1, Channel_6);   //Change to Channel 6 when Multi Mode test
+	configADC(ADC2, Channel_3);
+	configADC(ADC3, Channel_0);
 
-
-	addRegularQueue(ADC1, Channel_3);
-	addInjectedQueue(ADC1, Channel_6);
-	addRegularQueue(ADC1, Channel_6);
-	addInjectedQueue(ADC1, Channel_3);
-
-	setSampleTime(CYCLE_15, ADC1, Channel_0);
-	setSampleTime(CYCLE_15, ADC1, Channel_3);
 	setSampleTime(CYCLE_15, ADC1, Channel_6);
+	setSampleTime(CYCLE_15, ADC2, Channel_3);
+	setSampleTime(CYCLE_15, ADC3, Channel_0);
 
   //CHANGE RESOLUTION HERE *************************************************************
 	setResolution(RESOLUTION_8_BITS, ADC1);
-	// adcEnableMultiADC();
-	// enableDMA();
+	setResolution(RESOLUTION_8_BITS, ADC2);
+	setResolution(RESOLUTION_8_BITS, ADC3);
+  
+	adcEnableMultiADC();
+  
 	setContHigh();
 	setJautoHigh();
 	setScanHigh();
 
+  enableDMA();
 	startRegularConv(ADC1);
 	startInjectedConv(ADC1);
 
@@ -112,8 +114,6 @@ void _delay(int delay){
 	while(delay != 0)
 		delay--;
 }
-
-
 
 
   

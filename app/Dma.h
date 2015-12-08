@@ -88,9 +88,9 @@ void configDMA2ForADC1();
 void configDMA2ForADC2();
 void configDMA2ForADC3();
 
-int* getADC1Data();
-int* getADC2Data();
-int* getADC3Data();
+uint16_t* getADC1Data();
+uint16_t* getADC2Data();
+uint16_t* getADC3Data();
 
 void enableDMA();
 
