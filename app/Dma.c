@@ -28,18 +28,18 @@ void configDMA2ForADC1(){
   DMA2->S0.CR   |= PRIORITY_HIGH;
 
   DMA2->S0.CR   &= (3 << 13);
-  DMA2->S0.CR   |= DEST_H_WORD_SIZE_DATA;
+  DMA2->S0.CR   |= DEST_WORD_SIZE_DATA;
   DMA2->S0.CR   &= (3 << 11);
   DMA2->S0.CR   |= PERIPHERAL_H_WORD_SIZE_DATA;
 
   DMA2->S0.CR   |= DESTINATION_MEM_INCRMENT;	//Increment to Destination Memory
   DMA2->S0.CR   &= ~PERIPHERAL_MEM_INCRMENT;	//Disable increment to peripheral
   DMA2->S0.CR	  &= PERIPHERAL_TO_MEMORY_MODE;
-  DMA2->S0.CR	  &= ~PERIPHERAL_CONTROL_FLOW;
+  DMA2->S0.CR	  |= PERIPHERAL_CONTROL_FLOW;
   DMA2->S0.CR   |= ENABLE_ALL_INTERRUPTS;
 
-  DMA2->S0.NDTR  = 5;                    		//Read 5 times
-  DMA2->S0.PAR   = (uint32_t)(&(ADC1->JDR1));     //Departure from ADC1.DR
+  DMA2->S0.NDTR  = 99;                    		//Read 5 times
+  DMA2->S0.PAR   = (uint32_t)(&(COMMON_ADC->CDR));     //Departure from ADC1.DR
   DMA2->S0.M0AR  = (uint32_t)buffer1;			//Destination Memory
   DMA2->S0.FCR   = FIFO_DISABLE;                //Disable FIFO
 }
@@ -75,7 +75,7 @@ void configDMA2ForADC2(){
 void configDMA2ForADC3(){
 	dmaUnresetEnableClock(DMA2);
 	DMA2->S1.CR   &= ~(7 << 25);
-	DMA2->S1.CR   |= SELECT_CHANNEL_2;				//Stream 1 Channel 3 ~ (ADC3)
+	DMA2->S1.CR   |= SELECT_CHANNEL_2;				//Stream 1 Channel 2 ~ (ADC3)
 	DMA2->S1.CR   &= ~CT_TARGET_MEM1;		//Target MEMORY 0
 	DMA2->S1.CR   &= ~DOUBLE_BUFFER_MODE;	//Disable Double Buffer Mode
 
@@ -93,7 +93,7 @@ void configDMA2ForADC3(){
 	DMA2->S1.CR	  &= ~PERIPHERAL_CONTROL_FLOW;
 	DMA2->S1.CR   |= ENABLE_ALL_INTERRUPTS;
 
-	DMA2->S1.NDTR  = 5;                    		//Read 5 times
+	DMA2->S1.NDTR  = 100;                    		//Read 5 times
 	DMA2->S1.PAR   = (uint32_t)(&(ADC3->DR));     //Departure from ADC1.DR
 	DMA2->S1.M0AR  = (uint32_t)buffer3;			//Destination Memory
 	DMA2->S1.FCR   = FIFO_DISABLE;                //Disable FIFO
