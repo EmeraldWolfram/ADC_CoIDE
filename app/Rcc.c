@@ -15,10 +15,10 @@ void adcUnresetEnableClock(ADC_t* aDCx){
 }
 
 void dmaUnresetEnableClock(DMA_t* dMAx){
-  int x = ((int)dMAx - 0x40026000)/(0x400);
+	int x = ((int)dMAx - 0x40026000)/(0x400);
   
-  RCC_reg->RCC_AHB1ENR  |= DMAx_ENABLE_CLOCK(x);
-  RCC_reg->RCC_AHB1RSTR &= ~DMAx_RESET(x);;
+	RCC_reg->RCC_AHB1ENR  |= DMAx_ENABLE_CLOCK(x);
+	RCC_reg->RCC_AHB1RSTR &= ~DMAx_RESET(x);;
 }
 
 
