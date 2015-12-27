@@ -2,9 +2,6 @@
 #define	__Rcc_H__
 
 #include <stdint.h>
-#include "Gpio.h"
-#include "Adc.h"
-#include "Dma.h"
 
 typedef struct RCC_Type RCC_t;
 struct RCC_Type{
@@ -46,16 +43,16 @@ struct RCC_Type{
 	volatile uint32_t RCC_DCKCFGR;
 };
 
-#define RCC_reg	((RCC_t*)0x40023800)
+#define RCC_reg	((RCC_t*)RCC_BASE_ADDRESS)
 
 #define GPIOx_ENABLE_CLOCK(x)	(0x00100000 | (1 << (x)))
-#define GPIOx_RESET(x)			(1 << (x))
+#define GPIOx_RESET(x)			  (1 << (x))
 
 #define ADCx_ENABLE_CLOCK(x)	(1 << (x + 8))
-#define ADC_RESET				(1 << 8)
+#define ADC_RESET				      (1 << 8)
 
-#define DMAx_ENABLE_CLOCK(x)  	(1 << (x + 21))
-#define DMAx_RESET(x)         	(1 << (x + 21))
+#define DMAx_ENABLE_CLOCK(x)  (1 << (x + 21))
+#define DMAx_RESET(x)         (1 << (x + 21))
 
 
 #define INTERNAL_CLOCK	  16000000
@@ -64,14 +61,12 @@ struct RCC_Type{
 #define ENABLE_APB2_PRESCALE	((RCC_reg->RCC_CFGR >> 15) & 1)
 
 
-void gpioUnresetEnableClock(GPIO* port);
-void adcUnresetEnableClock(ADC_t* aDCx);
-void dmaUnresetEnableClock(DMA_t* dMAx);
 
 void adcInitAPB2Clock();
 
 uint32_t getSystemClock();
 uint32_t getAPB2Clock(uint32_t sysClock);
 
+#include "Register.h"
 
 #endif	//__Rcc_H__

@@ -33,6 +33,7 @@
 #include <stdint.h>
 typedef struct ADC_Type ADC_t;
 #include "Rcc.h"
+#include "Register.h"
 struct ADC_Type{
 	uint32_t  SR;
 	uint32_t  CR1;
@@ -63,10 +64,11 @@ struct CommonADC_t{
   uint32_t CDR;
 };
 
-#define COMMON_ADC  ((CommonADC*)0x40012300)
-#define ADC1    	((ADC_t*)0x40012000)
-#define ADC2    	((ADC_t*)0x40012100)
-#define ADC3    	((ADC_t*)0x40012200)
+
+#define COMMON_ADC  ((CommonADC*)COMMON_ADC_BASE_ADDRESS)
+#define ADC1    	((ADC_t*)ADC1_BASE_ADDRESS)
+#define ADC2    	((ADC_t*)ADC2_BASE_ADDRESS)
+#define ADC3    	((ADC_t*)ADC3_BASE_ADDRESS)
 
 typedef enum{
 	Channel_0,
@@ -137,6 +139,7 @@ typedef enum{
 	YES
 }Question;
 
+void adcUnresetEnableClock(ADC_t* aDCx);
 
 void configADC(ADC_t* aDCx, Channel regularChannel);
 

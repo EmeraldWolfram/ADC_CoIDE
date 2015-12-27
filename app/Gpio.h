@@ -5,6 +5,7 @@
 typedef struct GPIO_t GPIO;
 
 #include "Rcc.h"
+#include "Register.h"
 
 #define	GPIO_OUTPUT	GPIO_MODE_OUTPUT_PP
 #define	GPIO_INPUT	GPIO_MODE_INPUT
@@ -49,14 +50,6 @@ struct GPIO_t{
 #define	GPIO_SPEED_HIGH		2
 #define	GPIO_SPEED_V_HIGH	3
 
-#define GPIOA_BASE_ADDRESS	0x40020000
-#define GPIOB_BASE_ADDRESS	0x40020400
-#define GPIOC_BASE_ADDRESS	0x40020800
-#define GPIOD_BASE_ADDRESS	0x40020C00
-#define GPIOE_BASE_ADDRESS	0x40021000
-#define GPIOF_BASE_ADDRESS	0x40021400
-#define GPIOG_BASE_ADDRESS	0x40021800
-
 #define	PORTA	((GPIO *)GPIOA_BASE_ADDRESS)
 #define	PORTB	((GPIO *)GPIOB_BASE_ADDRESS)
 #define	PORTC	((GPIO *)GPIOC_BASE_ADDRESS)
@@ -69,6 +62,8 @@ struct GPIO_t{
 #define PULL_UP		1
 #define PULL_DOWN	2
 #define RESERVE		3
+
+void gpioUnresetEnableClock(GPIO* port);
 
 void configureOutput(int direction, int pinNum, GPIO *port);
 void configureInput(int pullMeth, int pinNum, GPIO *port);

@@ -60,6 +60,7 @@ void DMA2_Stream1_IRQHandler(void){
 int main(void){
 	uint32_t sysCLK = getSystemClock();
 	uint32_t p2CLK	= getAPB2Clock(sysCLK);
+
 	configureOutput(GPIO_SPEED_V_HIGH, PIN_14, PORTG);
 	configureOutput(GPIO_SPEED_V_HIGH, PIN_13, PORTG);
 	configureAnalog(NO_PULL, PIN_0, PORTA);

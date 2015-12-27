@@ -1,5 +1,12 @@
 #include "Dma.h"
 
+void dmaUnresetEnableClock(DMA_t* dMAx){
+  int x = ((int)dMAx - 0x40026000)/(0x400);
+  
+  RCC_reg->RCC_AHB1ENR  |= DMAx_ENABLE_CLOCK(x);
+  RCC_reg->RCC_AHB1RSTR &= ~DMAx_RESET(x);;
+}
+
 /****************************************************************************
  * 1. configDMA2ForADC1:
  *
@@ -21,10 +28,10 @@ uint16_t buffer3[256];
 void configDMA2ForADC1(){
   dmaUnresetEnableClock(DMA2);
   DMA2->S0.CR   &= SELECT_CHANNEL_0;		//Stream 0 Channel 0 ~ (ADC1)
-  DMA2->S0.CR   &= ~CT_TARGET_MEM1;			//Target MEMORY 0
-  DMA2->S0.CR   &= ~DOUBLE_BUFFER_MODE;		//Disable Double Buffer Mode
+  DMA2->S0.CR   &= ~CT_TARGET_MEM1;		//Target MEMORY 0
+  DMA2->S0.CR   &= ~DOUBLE_BUFFER_MODE;	//Disable Double Buffer Mode
 
-  DMA2->S0.CR   &= ~(3 << 16);				//MASK PRIORITY SET Bits
+  DMA2->S0.CR   &= ~(3 << 16);					//MASK PRIORITY SET Bits
   DMA2->S0.CR   |= PRIORITY_HIGH;
 
   DMA2->S0.CR   &= (3 << 13);
@@ -38,10 +45,10 @@ void configDMA2ForADC1(){
   DMA2->S0.CR	  |= PERIPHERAL_CONTROL_FLOW;
   DMA2->S0.CR   |= ENABLE_ALL_INTERRUPTS;
 
-  DMA2->S0.NDTR  = 99;                    			//Read 99 times
-  DMA2->S0.PAR   = (uint32_t)(&(COMMON_ADC->CDR));  //Departure from ADC1.DR
-  DMA2->S0.M0AR  = (uint32_t)buffer1;				//Destination Memory
-  DMA2->S0.FCR   = FIFO_DISABLE;                	//Disable FIFO
+  DMA2->S0.NDTR  = 99;                    		//Read 5 times
+  DMA2->S0.PAR   = (uint32_t)(&(COMMON_ADC->CDR));     //Departure from ADC1.DR
+  DMA2->S0.M0AR  = (uint32_t)buffer1;			//Destination Memory
+  DMA2->S0.FCR   = FIFO_DISABLE;                //Disable FIFO
 }
 
 void configDMA2ForADC2(){

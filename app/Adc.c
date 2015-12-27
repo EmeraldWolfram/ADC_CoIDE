@@ -1,5 +1,12 @@
 #include "Adc.h"
 
+void adcUnresetEnableClock(ADC_t* aDCx){
+	int x = ((int)aDCx - 0x40012000)/(0x100);
+
+	RCC_reg->RCC_APB2ENR	|= ADCx_ENABLE_CLOCK(x);
+	RCC_reg->RCC_APB2RSTR	&= ~ADC_RESET;
+}
+
 /***************************************************************************
  * Author	: Steven Foong Ghin Yew (Emerald)
  * Course	: RMB2
@@ -352,4 +359,5 @@ void adcEnableMultiADC(){
 	COMMON_ADC->CCR |= ~(7 << 13);	//MASKED DMA config bits
 	COMMON_ADC->CCR |= 4 << 13;		//Triple ADC Mode
 	COMMON_ADC->CCR |= 0x15;	//ADC1, ADC2, ADC3 working together on Regular Simultaneous Mode.
+
 }

@@ -4,6 +4,7 @@
 #include <stdint.h>
 typedef struct DMA_Type DMA_t;
 #include "Rcc.h"
+#include "Register.h"
 #include "Adc.h"
 
 /**
@@ -51,8 +52,8 @@ struct DMA_Type{
   Stream_t	S7;
 };
 
-#define DMA1   ((DMA_t*)0x40026000)
-#define DMA2   ((DMA_t*)0x40026400)
+#define DMA1   ((DMA_t*)DMA1_BASE_ADDRESS)
+#define DMA2   ((DMA_t*)DMA2_BASE_ADDRESS)
 
 #define DMAx_ENABLE		1
 #define FIFO_DISABLE	0
@@ -83,6 +84,8 @@ struct DMA_Type{
 #define	PERIPHERAL_TO_MEMORY_MODE	~(3 << 6)
 #define PERIPHERAL_CONTROL_FLOW		(1 << 5)
 #define ENABLE_ALL_INTERRUPTS		(15 << 1)
+
+void dmaUnresetEnableClock(DMA_t* dMAx);
 
 void configDMA2ForADC1();
 void configDMA2ForADC2();
