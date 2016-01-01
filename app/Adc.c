@@ -361,3 +361,10 @@ void adcEnableMultiADC(){
 	COMMON_ADC->CCR |= 0x15;	//ADC1, ADC2, ADC3 working together on Regular Simultaneous Mode.
 
 }
+
+void setAllOffset(int valueToMinus){
+  ADC1->JOFR1 = valueToMinus;
+  ADC1->JOFR2 = valueToMinus;
+  ADC1->JOFR3 = valueToMinus;
+  ADC1->JOFR4 = valueToMinus;
+}
