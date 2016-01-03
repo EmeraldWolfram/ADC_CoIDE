@@ -166,6 +166,7 @@ void setDisconMode(ADC_t* aDCx, int grp, int numOfChnDiscon);
 
 void adcEnableSignleDMA(ADC_t* aDCx);
 void adcEnableMultiADC();
+void setAllOffset(int numToMinus);
 
 
 #endif	//__Adc_H__

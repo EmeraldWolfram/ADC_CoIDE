@@ -362,9 +362,17 @@ void adcEnableMultiADC(){
 
 }
 
-void setAllOffset(int valueToMinus){
-  ADC1->JOFR1 = valueToMinus;
-  ADC1->JOFR2 = valueToMinus;
-  ADC1->JOFR3 = valueToMinus;
-  ADC1->JOFR4 = valueToMinus;
+/**
+ * setAllOffset
+ *
+ * This function minus the value obtained in the Injected group by numToMinus
+ *
+ * @numToMinus	The number to minus from the value read
+ *
+ */
+void setAllOffset(int numToMinus){
+	ADC1->JOFR1 = numToMinus;
+	ADC1->JOFR2 = numToMinus;
+	ADC1->JOFR3 = numToMinus;
+	ADC1->JOFR4 = numToMinus;
 }

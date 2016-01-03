@@ -91,8 +91,9 @@ int main(void){
 //	adcEnableSignleDMA(ADC3);
 	adcEnableMultiADC();
   
-  setAllOffset(0x80);
+	setAllOffset(0x80);
 	setContMode(ADC1);
+	ADC1->LTR = 126;
 	// setContMode(ADC2);
 	// setContMode(ADC3);
 
